@@ -16,6 +16,7 @@ namespace Tests.Utilities
 		public async Task IsDomainReturnsFalseIfDomainNotExists()
 		{
 			Assert.False(await DomainValidations.IsDomain("christianlevesque"));
+			Assert.False(await DomainValidations.IsDomain("christian levesque"));
 		}
 	}
 }
