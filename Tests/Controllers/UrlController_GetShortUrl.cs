@@ -17,9 +17,9 @@ namespace Tests.Controllers
 			var response = Assert.IsType<BadRequestObjectResult>(result);
 			Assert.NotNull(response.Value);
 			Assert.IsType<Dictionary<string, string>>(response.Value);
-			Assert.Equal((response.Value as IDictionary<string, string>).Keys.Count, 1);
-			Assert.True((response.Value as IDictionary<string, string>).ContainsKey("error"));
-			Assert.Equal("invalid url", (response.Value as IDictionary<string, string>)["error"]);
+			Assert.Equal(1, (response.Value as IDictionary<string, string>)?.Keys.Count);
+			Assert.True((response.Value as IDictionary<string, string>)?.ContainsKey("error"));
+			Assert.Equal("invalid url", (response.Value as IDictionary<string, string>)?["error"]);
 		}
 	}
 }
