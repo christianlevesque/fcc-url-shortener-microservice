@@ -9,5 +9,10 @@ namespace Webapp.Utilities
 		{
 			return Regex.IsMatch(url);
 		}
+
+		public static string StripProtocol(string url)
+		{
+			return Regex.Replace(url, "");
+		}
 	}
 }
