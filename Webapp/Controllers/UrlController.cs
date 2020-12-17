@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Webapp.Models;
+using Webapp.Utilities;
 
 namespace Webapp.Controllers
 {
@@ -25,8 +27,11 @@ namespace Webapp.Controllers
 		}
 
 		[HttpPost("new")]
-		public IActionResult CreateShortUrl([FromForm] string url)
+		public async Task<IActionResult> CreateShortUrl([FromForm] string url)
 		{
+			if (!await DomainValidations.IsDomain(url))
+				return BadRequest(_error);
+
 			_urls.Add(url);
 			var newPosition = _urls.Count - 1;
 
