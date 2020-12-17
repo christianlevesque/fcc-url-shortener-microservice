@@ -29,8 +29,8 @@ namespace Webapp.Controllers
 		[HttpPost("new")]
 		public async Task<IActionResult> CreateShortUrl([FromForm] string url)
 		{
-			if (!await DomainValidations.IsDomain(url))
-				return BadRequest(_error);
+			// if (!await DomainValidations.IsDomain(url))
+			// 	return BadRequest(_error);
 
 			_urls.Add(url);
 			var newPosition = _urls.Count - 1;
