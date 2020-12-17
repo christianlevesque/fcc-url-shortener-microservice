@@ -88,4 +88,4 @@ printf "...done\n"
 ### Done ###
 ############
 
-echo "To run URL Shortener, log into remote server and execute ~/$BUILD_DIR/url-shortener"
+echo "To run URL Shortener, log into remote server and execute ~/$BUILD_DIR/Webapp"

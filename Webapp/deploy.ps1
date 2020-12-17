@@ -95,4 +95,4 @@ Write-Host "...done"
 ### Done ###
 ############
 
-Write-Host "To run URL Shortener, log into remote server and execute ~/$build_dir/url-shortener"
+Write-Host "To run URL Shortener, log into remote server and execute ~/$build_dir/Webapp"
