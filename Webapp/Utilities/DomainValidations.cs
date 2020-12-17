@@ -20,6 +20,7 @@ namespace Webapp.Utilities
 
 		public static async Task<bool> IsDomain(string url)
 		{
+			url = StripProtocol(url);
 			IPHostEntry domain;
 			try
 			{

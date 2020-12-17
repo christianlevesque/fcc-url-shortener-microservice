@@ -18,5 +18,11 @@ namespace Tests.Utilities
 			Assert.False(await DomainValidations.IsDomain("christianlevesque"));
 			Assert.False(await DomainValidations.IsDomain("christian levesque"));
 		}
+
+		[Fact]
+		public async Task IsDomainReturnsTrueIfHttpPresent()
+		{
+			Assert.True(await DomainValidations.IsDomain("http://www.christianlevesque.io"));
+		}
 	}
 }
