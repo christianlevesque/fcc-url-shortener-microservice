@@ -1,7 +1,10 @@
+using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Webapp.Services;
+using Webapp.Utilities;
 
 namespace Webapp
 {
@@ -20,6 +23,8 @@ namespace Webapp
 			});
 
 			services.AddControllers();
+
+			services.AddHttpClient<IDomainValidatorService, DomainValidatorService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

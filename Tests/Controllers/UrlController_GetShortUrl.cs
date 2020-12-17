@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using Webapp.Controllers;
+using Webapp.Services;
 using Xunit;
 
 namespace Tests.Controllers
@@ -13,7 +15,8 @@ namespace Tests.Controllers
 		[Fact]
 		public void GetShortUrlReturnsNotFoundWhenIndexOutOfRange()
 		{
-			var controller = new UrlController();
+			var validator = new Mock<IDomainValidatorService>();
+			var controller = new UrlController(validator.Object);
 
 			var result = controller.GetShortUrl(0);
 
@@ -23,7 +26,8 @@ namespace Tests.Controllers
 		[Fact]
 		public async Task GetShortUrlReturnsRedirectResultWhenShortUrlIsValid()
 		{
-			var controller = new UrlController();
+			var validator = new Mock<IDomainValidatorService>();
+			var controller = new UrlController(validator.Object);
 
 			await controller.CreateShortUrl(Url);
 

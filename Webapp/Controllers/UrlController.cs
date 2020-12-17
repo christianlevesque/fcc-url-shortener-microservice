@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Webapp.Models;
+using Webapp.Services;
 using Webapp.Utilities;
 
 namespace Webapp.Controllers
@@ -14,23 +15,28 @@ namespace Webapp.Controllers
 		{
 			{"error", "invalid url"}
 		};
-
 		private readonly IList<string> _urls = new List<string>();
+		private readonly IDomainValidatorService _validator;
 
-		[HttpGet("{index}")]
-		public IActionResult GetShortUrl(int index)
+		public UrlController(IDomainValidatorService validator)
 		{
-			if (_urls.Count <= index)
+			_validator = validator;
+		}
+
+		[HttpGet("{id}")]
+		public IActionResult GetShortUrl(int id)
+		{
+			if (_urls.Count <= id)
 				return NotFound();
 
-			return RedirectPermanent(_urls[index]);
+			return RedirectPermanent(_urls[id]);
 		}
 
 		[HttpPost("new")]
 		public async Task<IActionResult> CreateShortUrl([FromForm] string url)
 		{
-			// if (!await DomainValidations.IsDomain(url))
-			// 	return BadRequest(_error);
+			if (!await _validator.IsValidDomain(url))
+				return BadRequest(_error);
 
 			_urls.Add(url);
 			var newPosition = _urls.Count - 1;
