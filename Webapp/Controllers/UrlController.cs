@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Webapp.Models;
 
 namespace Webapp.Controllers
 {
@@ -11,8 +12,9 @@ namespace Webapp.Controllers
 		{
 			{"error", "invalid url"}
 		};
+
 		private readonly IList<string> _urls = new List<string>();
-		
+
 		[HttpGet("{index}")]
 		public IActionResult GetShortUrl(int index)
 		{
@@ -20,6 +22,19 @@ namespace Webapp.Controllers
 				return BadRequest(_error);
 
 			return Ok();
+		}
+
+		[HttpPost("new")]
+		public IActionResult CreateShortUrl([FromForm] string url)
+		{
+			_urls.Add(url);
+			var newPosition = _urls.Count - 1;
+
+			return Created($"/shorturl/{newPosition}", new ShortUrl
+			{
+				ShortenedUrl = newPosition,
+				OriginalUrl = url
+			});
 		}
 	}
 }
