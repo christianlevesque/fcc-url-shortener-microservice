@@ -26,19 +26,19 @@ namespace Tests.Controllers
 			Assert.Equal(0, ((ShortUrl) response.Value).ShortenedUrl);
 		}
 
-		[Fact]
-		public async Task CreateShortUrlReturnsBadRequestResultIfUrlInvalid()
-		{
-			var controller = new UrlController();
-
-			var result = await controller.CreateShortUrl(InvalidUrl);
-
-			var response = Assert.IsType<BadRequestObjectResult>(result);
-			Assert.NotNull(response.Value);
-			Assert.IsType<Dictionary<string, string>>(response.Value);
-			Assert.Equal(1, (response.Value as IDictionary<string, string>)?.Keys.Count);
-			Assert.True((response.Value as IDictionary<string, string>)?.ContainsKey("error"));
-			Assert.Equal("invalid url", (response.Value as IDictionary<string, string>)?["error"]);
-		}
+		// [Fact]
+		// public async Task CreateShortUrlReturnsBadRequestResultIfUrlInvalid()
+		// {
+		// 	var controller = new UrlController();
+		//
+		// 	var result = await controller.CreateShortUrl(InvalidUrl);
+		//
+		// 	var response = Assert.IsType<BadRequestObjectResult>(result);
+		// 	Assert.NotNull(response.Value);
+		// 	Assert.IsType<Dictionary<string, string>>(response.Value);
+		// 	Assert.Equal(1, (response.Value as IDictionary<string, string>)?.Keys.Count);
+		// 	Assert.True((response.Value as IDictionary<string, string>)?.ContainsKey("error"));
+		// 	Assert.Equal("invalid url", (response.Value as IDictionary<string, string>)?["error"]);
+		// }
 	}
 }
