@@ -19,7 +19,7 @@ namespace Webapp.Controllers
 		public IActionResult GetShortUrl(int index)
 		{
 			if (_urls.Count <= index)
-				return BadRequest(_error);
+				return NotFound();
 
 			return Ok();
 		}
