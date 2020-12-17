@@ -25,6 +25,7 @@ namespace Webapp
 			services.AddControllers();
 
 			services.AddHttpClient<IDomainValidatorService, DomainValidatorService>();
+			services.AddSingleton<IShortUrlService, ShortUrlService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

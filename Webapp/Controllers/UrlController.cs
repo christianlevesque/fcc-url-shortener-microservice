@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -15,21 +16,33 @@ namespace Webapp.Controllers
 		{
 			{"error", "invalid url"}
 		};
-		private readonly IList<string> _urls = new List<string>();
-		private readonly IDomainValidatorService _validator;
 
-		public UrlController(IDomainValidatorService validator)
+		private readonly IDomainValidatorService _validator;
+		private readonly IShortUrlService _shortUrl;
+
+		public UrlController(IDomainValidatorService validator, IShortUrlService shortUrl)
 		{
 			_validator = validator;
+			_shortUrl = shortUrl;
 		}
 
 		[HttpGet("{id}")]
 		public IActionResult GetShortUrl(int id)
 		{
-			if (_urls.Count <= id)
+			string url = null;
+			try
+			{
+				url = _shortUrl.GetUrl(id);
+			}
+			catch (IndexOutOfRangeException)
+			{
+				return NotFound();
+			}
+
+			if (string.IsNullOrEmpty(url))
 				return NotFound();
 
-			return RedirectPermanent(_urls[id]);
+			return RedirectPermanent(url);
 		}
 
 		[HttpPost("new")]
@@ -38,14 +51,9 @@ namespace Webapp.Controllers
 			if (!await _validator.IsValidDomain(url))
 				return BadRequest(_error);
 
-			_urls.Add(url);
-			var newPosition = _urls.Count - 1;
+			var shortUrl = _shortUrl.AddUrl(url);
 
-			return Created($"/shorturl/{newPosition}", new ShortUrl
-			{
-				ShortenedUrl = newPosition,
-				OriginalUrl = url
-			});
+			return Created($"/shorturl/{shortUrl.ShortenedUrl}", shortUrl);
 		}
 	}
 }

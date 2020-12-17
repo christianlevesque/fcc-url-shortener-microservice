@@ -17,13 +17,23 @@ namespace Tests.Controllers
 		[Fact]
 		public async Task CreateShortUrlReturnsCreatedResult()
 		{
+			// Mock setup
 			var validator = new Mock<IDomainValidatorService>();
 			validator.Setup(v => v.IsValidDomain(Url))
 					 .ReturnsAsync(true);
-			var controller = new UrlController(validator.Object);
+			var shortUrl = new Mock<IShortUrlService>();
+			shortUrl.Setup(s => s.AddUrl(Url))
+					.Returns(new ShortUrl
+					{
+						OriginalUrl = Url,
+						ShortenedUrl = 0
+					});
 
+			// Run tests
+			var controller = new UrlController(validator.Object, shortUrl.Object);
 			var result = await controller.CreateShortUrl(Url);
 
+			// Assertions
 			var response = Assert.IsType<CreatedResult>(result);
 			Assert.NotNull(response.Value);
 			Assert.IsType<ShortUrl>(response.Value);
@@ -34,13 +44,17 @@ namespace Tests.Controllers
 		[Fact]
 		public async Task CreateShortUrlReturnsBadRequestResultIfUrlInvalid()
 		{
+			// Mock setup
 			var validator = new Mock<IDomainValidatorService>();
 			validator.Setup(v => v.IsValidDomain(InvalidUrl))
 					 .ReturnsAsync(false);
-			var controller = new UrlController(validator.Object);
-		
+			var shortUrl = new Mock<IShortUrlService>();
+
+			// Run tests
+			var controller = new UrlController(validator.Object, shortUrl.Object);
 			var result = await controller.CreateShortUrl(InvalidUrl);
-		
+
+			// Assertions
 			var response = Assert.IsType<BadRequestObjectResult>(result);
 			Assert.NotNull(response.Value);
 			Assert.IsType<Dictionary<string, string>>(response.Value);
