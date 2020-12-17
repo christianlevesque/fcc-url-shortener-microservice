@@ -23,7 +23,7 @@ namespace Webapp.Controllers
 			if (_urls.Count <= index)
 				return NotFound();
 
-			return Ok();
+			return RedirectPermanent(_urls[index]);
 		}
 
 		[HttpPost("new")]
