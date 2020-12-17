@@ -20,7 +20,7 @@ namespace Tests.Controllers
 			var validator = new Mock<IDomainValidatorService>();
 			var shortUrl = new Mock<IShortUrlService>();
 			shortUrl.Setup(s => s.GetUrl(0))
-					.Throws<IndexOutOfRangeException>();
+					.Throws<ArgumentOutOfRangeException>();
 
 			// Run tests
 			var controller = new UrlController(validator.Object, shortUrl.Object);

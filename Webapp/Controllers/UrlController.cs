@@ -34,7 +34,7 @@ namespace Webapp.Controllers
 			{
 				url = _shortUrl.GetUrl(id);
 			}
-			catch (IndexOutOfRangeException)
+			catch (ArgumentOutOfRangeException)
 			{
 				return NotFound();
 			}
